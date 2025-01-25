@@ -1,0 +1,172 @@
+.yesButton,
+.noButton {
+    border: none;
+    padding: 12px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%; /* Make buttons fill their container */
+    max-width: 150px; /* Set a maximum width for larger screens */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.yesButton {
+    background: #5c5248;
+    color: white;
+}
+
+.noButton {
+    background: #c4b8ac;
+    color: white;
+}
+
+.yesButton:hover,
+.noButton:hover {
+    opacity: 0.8;
+}
+.openModal {
+    background: #3A2D28;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    padding: 13px;
+    width: 70%; /* Ensure the button fills the parent container */
+    max-width: 400px; /* Restrict the maximum width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    white-space: nowrap; /* Prevent text wrapping */
+    text-align: center; /* Center the text horizontally */
+    overflow: hidden; /* Hide any overflowed text */
+}
+
+.productDetail{
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+.productImage{
+    max-width: 600px;
+    height: auto;
+    width: 100%;
+    margin-left: 5%;
+}
+.bodyDetLeft{
+    width: 50%;
+}
+.bodyDetRight{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 8%;
+    text-align: left;
+    gap: 3%;
+}
+.cardDet{
+    max-height: 90vh;
+    max-width: 1000px;
+}
+.modalContainerShelf {
+    display: flex;
+    justify-content: center;
+    padding: 16px; /* Add padding for better spacing */
+    max-width: 600px; /* Restrict width for better layout */
+    margin: auto; /* Center the modal on the page */
+}
+.descriptionDropdown {
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+    margin-bottom: 30%;
+}
+.descriptionTitle {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #f0f0f0;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.descriptionTitle:hover {
+    background-color: #e0e0e0;
+}
+.descriptionTitle[aria-expanded="true"] .arrow-icon {
+    transform: rotate(180deg);
+}
+.descriptionContent {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.descriptionContent.show {
+    max-height: 500px;
+}
+
+.descriptionList {
+    margin: 0;
+    padding: 1rem 1rem 1rem 2rem;
+    background-color: #f9f9f9;
+    list-style-type: none;
+}
+
+.descriptionList li {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.descriptionList li::marker {
+    content: "\2022";
+    color: #333;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.descriptionList li:last-child {
+    margin-bottom: 0;
+    text-align: left;
+}
+.orderButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.orderButton:hover {
+    background-color: #45a049;
+}
+.productTitle {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+.productPrice {
+    font-size: 25px;
+    color: black;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
+.productPrices {
+    font-size: 37px;
+    color: black;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}

@@ -1,0 +1,87 @@
+.filter-container {
+  display: flex;
+  align-items: flex-end; /* Align all buttons to the bottom by default */
+  gap: 28px;
+
+}
+
+
+.filter-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s ease, order 0.2s ease;
+}
+
+.filter-button:hover {
+  transform: scale(1.1);
+}
+
+.filter-button.active {
+  align-self: flex-start; /* Make the active button align at the top */
+  order: -1; /* Ensure it always stays at the left */
+}
+
+.filter-button.active .circle {
+  border: 2px solid #f1c08f; /* Highlight active filter */
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #EBE3DB;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+}
+
+.filter-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.filter-button.active .circle {
+  background-color: #EBE3DB; /* Change background for active filter */
+}
+
+.large {
+  width: 80px; /* Larger circle for active filter */
+  height: 80px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.filter-image-large {
+  width: 60px;
+  height: 60px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .filter-image-large {
+    width: 50px;
+    height: 50px;
+  }
+
+  .large {
+    width: 70px;
+    height: 70px;
+  }
+
+  .filter-image {
+    width: 30px;
+    height: 30px;
+  }
+}
