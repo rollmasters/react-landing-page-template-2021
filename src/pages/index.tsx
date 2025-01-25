@@ -9,7 +9,7 @@ import LazyShow from '../components/LazyShow';
 import MainHero from '../components/MainHero';
 import MainHeroImage from '../components/MainHeroImage';
 import Pricing from '../components/Pricing';
-import ProductShelfContainer from '../components/ProductShelfContainer/ProductShelfContainer';
+import Product from '../components/Product';
 
 const App = () => {
   return (
@@ -28,7 +28,8 @@ const App = () => {
       <Canvas />
       <LazyShow>
         <>
-        <ProductShelfContainer/>
+          <Product />
+          <Canvas />
         </>
       </LazyShow>
       <LazyShow>
