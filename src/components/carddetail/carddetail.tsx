@@ -23,12 +23,12 @@ export default function CardDetail({ isModalOpen, setModalOpen, product }: CardD
     >
       <div className={styles.productDetail}>
         <div className={styles.bodyDetLeft}>
-        <Image 
+        <img 
           src={product.image} 
           alt={product.name} 
           className={styles.productImage}
-          width={50}
-          height={50}
+          width={600}
+          height={600}
         />
         </div>
         <div className={styles.bodyDetRight}>
@@ -48,7 +48,7 @@ export default function CardDetail({ isModalOpen, setModalOpen, product }: CardD
                 </ul>
             </div>
         </div>
-        <button className={styles.orderButton}>Add to Cart</button>
+        <button className={styles.orderButton}>Try on</button>
     </div>
       </div>
     </ModalContainer>

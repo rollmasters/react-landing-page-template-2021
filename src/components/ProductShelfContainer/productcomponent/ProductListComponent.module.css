@@ -8,36 +8,41 @@
 .product-item {
   display: flex; /* Use flexbox for centering */
   align-items: center; /* Center content horizontally */
-  flex-direction: row; /* Allow vertical alignment */
+  flex-direction: column; /* Allow vertical alignment */
   justify-content: center; /* Center content vertically */
-  flex: 1 1 calc(40.333% - 20px); /* Responsive width */
+  flex: 1 1 calc(27.333% - 20px); /* Responsive width */
   border-radius: 4px;
-  padding: 0px 15px;
+  padding: 10px 10px;
+  width: 100%;
   box-sizing: border-box;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0px 8px 7px rgba(0, 0, 0, 0.2);
   border-radius: 25px;
   margin-top: 2%;
   align-items: flex-start;
   margin-left: 2%;
   margin-right: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
 .productImage {
-  width: 83px;
   object-fit: fill;
+  width: 280px;
+  height: 280px;
 }
 .purchaseButton{
   background: #3a2d28;
     color: #fff;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 18px;
     border: none;
-    padding: 6px;
+    padding: 5px;
     width: 70%;
     max-width: 400px;
     box-sizing: border-box;
@@ -51,38 +56,34 @@
   white-space: nowrap;
 }
 .detProduct{
-  width: 50%;
+  width: 100%;
 }
 /* Responsive Design */
 @media (max-width: 1463px) {
   .product-item {
-    padding: 6px 15px;
+    padding: 10px 10px;
     margin-top: 2%;
   }
 }
 @media (max-width: 1219px) {
   .product-item {
-    padding: 6px 15px;
-    width: 37px;
+    padding: 10px 10px;
     margin-top: 2%;
   }
-}
-@media (max-width: 1111px) {
-  .product-item {
-    width: 35px;
+  .productImage {
+    height: 200px;
   }
 }
 @media (max-width: 911px) {
   .product-item {
-    flex: 1 1 calc(57.333% - 20px);
-    width: 32px;
-    padding: 0px 13px;
+    flex: 1 1 calc(27.333% - 20px);
+    padding: 10px 10px;
   }
+
 }
 @media (max-width: 768px) {
   .product-item {
     flex: 1 1 calc(50% - 10px); /* Adjust to 2 columns */
-    width: 26px;
   }
 }
 

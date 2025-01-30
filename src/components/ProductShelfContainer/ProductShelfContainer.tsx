@@ -1,141 +1,84 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import MainContainer from "../modalContainer/ModalContainer";
 import FilterComponent from "./filtercomponent/FilterComponent";
 import ProductPage from "./ProductContainercomponent/ProductContainer";
 import styles from "./ProductShelfContainer.module.css";
 import { FilterTypes } from "../Types/FilterTypes";
-import { ServiceFactory } from "../services/ServiceFactory";
 
 export interface ServerProduct {
   id: string;
   name: string;
   image: string;
   type: string;
-  gender?: string;
-  cloth_path?: string;
-  base64Image?: string;
   price?: string;
 }
-export interface TryOnRequest {
-  guidance_scale: number;
-  timesteps: number;
-  num_samples: number;
-  seed: number;
-  nsfw_filter: boolean;
-  cover_feet: boolean;
-  adjust_hands: boolean;
-  restore_background: boolean;
-  restore_clothes: boolean;
-  garment_photo_type: string;
-  long_top: boolean;
-}
+
+const staticProducts: ServerProduct[] = [
+  { id: "1", name: "Product 1", image: "/assets/images/pngegg (3).png", type: "tops", price: "20.00" },
+  { id: "2", name: "Product 2", image: "/assets/images/pngegg (3).png", type: "tops", price: "25.00" },
+  { id: "3", name: "Product 3", image: "/assets/images/pngegg (3).png", type: "tops", price: "20.00" },
+  { id: "4", name: "Product 4", image: "/assets/images/pngegg (3).png", type: "tops", price: "25.00" },
+  { id: "5", name: "Product 5", image: "/assets/images/pngegg (3).png", type: "tops", price: "20.00" },
+  { id: "6", name: "Product 6", image: "/assets/images/pngegg (3).png", type: "tops", price: "25.00" },
+  { id: "7", name: "Product 1", image: "/assets/images/e1f048f4ee0b4c1b9c66bc8cac0b2089 31.png", type: "bottoms", price: "20.00" },
+  { id: "8", name: "Product 2", image: "/assets/images/e1f048f4ee0b4c1b9c66bc8cac0b2089 31.png", type: "bottoms", price: "25.00" },
+  { id: "9", name: "Product 3", image: "/assets/images/e1f048f4ee0b4c1b9c66bc8cac0b2089 31.png", type: "bottoms", price: "20.00" },
+  { id: "10", name: "Product 4", image: "/assets/images/e1f048f4ee0b4c1b9c66bc8cac0b2089 31.png", type: "bottoms", price: "25.00" },
+  { id: "11", name: "Product 5", image: "/assets/images/e1f048f4ee0b4c1b9c66bc8cac0b2089 31.png", type: "bottoms", price: "20.00" },
+  { id: "12", name: "Product 6", image: "/assets/images/e1f048f4ee0b4c1b9c66bc8cac0b2089 31.png", type: "bottoms", price: "25.00" },
+  { id: "13", name: "Product 1", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "overwears", price: "20.00" },
+  { id: "14", name: "Product 2", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "overwears", price: "25.00" },
+  { id: "15", name: "Product 3", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "overwears", price: "20.00" },
+  { id: "16", name: "Product 4", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "overwears", price: "25.00" },
+  { id: "17", name: "Product 5", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "overwears", price: "20.00" },
+  { id: "18", name: "Product 6", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "overwears", price: "25.00" },
+  { id: "19", name: "Product 1", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "fullbody", price: "20.00" },
+  { id: "20", name: "Product 2", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "fullbody", price: "25.00" },
+  { id: "21", name: "Product 3", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "fullbody", price: "20.00" },
+  { id: "22", name: "Product 4", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "fullbody", price: "25.00" },
+  { id: "23", name: "Product 5", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "fullbody", price: "20.00" },
+  { id: "24", name: "Product 6", image: "/assets/images/—Pngtree—dropshipping men hole sole jogging_14339669.png", type: "fullbody", price: "25.00" },
+];
+
 export default function ProductShelfContainer() {
   const [filter, setFilter] = useState<FilterTypes>(FilterTypes.TOPS);
-  const [imagePaths, setImagePaths] = useState<string[]>([]);
-  const [products, setProducts] = useState<ServerProduct[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
+  const [products, setProducts] = useState<ServerProduct[]>([]); // Initially empty
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<ServerProduct | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State for modal visibility
-  const observer = useRef<IntersectionObserver | null>(null);
-  const service = ServiceFactory.getService();
+  const formattedPrice = selectedProduct?.price
+  ? `${selectedProduct.price} EUR`
+  : "N/A";
 
-  const IMAGES_PER_PAGE = 4;
 
+  // Filter products initially and whenever `filter` changes
   useEffect(() => {
-    const fetchPaths = async () => {
-      setLoading(true);
-      try {
-        const paths = await service.fetchImagePaths(filter);
-        setImagePaths(paths);
-        setProducts([]);
-        setPage(1);
-      } catch (error) {
-        console.error("Error fetching image paths:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPaths();
+    setProducts(staticProducts.filter((product) => product.type === filter));
   }, [filter]);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      setLoading(true);
-      try {
-        const productsWithImages = await service.fetchImagesForPage(imagePaths, page, IMAGES_PER_PAGE, filter);
-        setProducts((prevProducts) => [...prevProducts, ...productsWithImages]);
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (page > 0 && imagePaths.length > 0) {
-      fetchImages();
-    }
-  }, [page, imagePaths, IMAGES_PER_PAGE]);
-
-  const lastProductRef = useCallback((node: HTMLElement | null) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    });
-    if (node) observer.current.observe(node);
-  }, [loading]);
-
   const handleFilterChange = (newFilter: FilterTypes) => {
-    setFilter(newFilter);
+    setFilter(newFilter); // This will trigger the `useEffect` to update products
   };
 
-  const handleMoreClick = async (product: ServerProduct) => {
-    console.log("Product clicked:", product); // Log product data for now
+  const handleMoreClick = (product: ServerProduct) => {
     setSelectedProduct(product);
-    setIsModalOpen(true); // Open the modal when a product is clicked
-
-    const tryOnRequest: TryOnRequest = {
-      guidance_scale: 2.0,
-      timesteps: 50,
-      num_samples: 1,
-      seed: 42,
-      nsfw_filter: true,
-      cover_feet: false,
-      adjust_hands: false,
-      restore_background: false,
-      restore_clothes: false,
-      garment_photo_type: "auto",
-      long_top: false,
-    };
-
-    try {
-      const imagePath = await service.fetchCharacterWithCloth(product, tryOnRequest);
-      console.log("Fetched image path:", imagePath);
-    } catch (error) {
-      console.error("Error fetching character image:", error);
-    }
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedProduct(null); // Optionally clear the selected product
+    setSelectedProduct(null);
   };
 
   return (
     <div className={styles.main}>
       <MainContainer isOpen={isModalOpen} onClose={closeModal} title="Product Details">
-        {/* Modal content */}
         {selectedProduct && (
           <div>
             <h3>{selectedProduct.name}</h3>
             <img src={selectedProduct.image} alt={selectedProduct.name} />
-            <p>Price: {selectedProduct.price || "N/A"}</p>
+            <p>Price: {formattedPrice}</p>
           </div>
         )}
       </MainContainer>
@@ -145,8 +88,6 @@ export default function ProductShelfContainer() {
         </div>
         <div className={styles.products}>
           <ProductPage products={products} onMoreClick={handleMoreClick} />
-          {loading && <p>Loading...</p>}
-          <div ref={lastProductRef}></div>
         </div>
       </div>
     </div>

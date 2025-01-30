@@ -13,9 +13,9 @@ export default function ProductListComponent({ products, onMoreClick }: ProductL
     <div className={styles["product-list"]}>
       {products.map((product) => (
         <div key={product.id} className={styles["product-item"]}>
-          <div>
-            <Image
-              src={product.base64Image ? `data:image/png;base64,${product.base64Image}` : product.image}
+          <div className={styles.detContainer}>
+            <img
+              src={product.image}
               alt={product.name || "Product Placeholder"}
               width={50}
               height={50}

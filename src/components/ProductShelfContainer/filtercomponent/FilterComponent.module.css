@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #EBE3DB;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border 0.3s ease;
@@ -48,7 +48,7 @@
 }
 
 .filter-button.active .circle {
-  background-color: #EBE3DB; /* Change background for active filter */
+  background-color: #ffffff; /* Change background for active filter */
 }
 
 .large {
